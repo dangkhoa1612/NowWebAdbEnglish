@@ -2,14 +2,14 @@
   <div class="mx-4">
     <div class="d-flex justify-content-between">
       <el-space>
-        <el-input v-model="searchPackage" :style="{width: width - 180 + 'px'}" placeholder="请输入名称或包名进行搜索">
+        <el-input v-model="searchPackage" :style="{width: width - 180 + 'px'}" placeholder="Please enter a name or package name to search">
           <template #prefix>
             <span>🔍</span>
           </template>
         </el-input>
       </el-space>
       <el-space>
-        <el-button type="primary" @click="getAppIcon">初始化</el-button>
+        <el-button type="primary" @click="getAppIcon">Initialization</el-button>
       </el-space>
     </div>
 
@@ -17,19 +17,19 @@
     <el-space class="mt-4" :size="40">
       <el-space style="cursor: pointer" @click="createNewFolder">
         <SvgIcon icon="packageDelete"/>
-        <span>卸载</span>
+        <span>Uninstall</span>
       </el-space>
       <el-space style="cursor: pointer" @click="createNewFolder">
         <SvgIcon icon="packageSave"/>
-        <span>备份</span>
+        <span>Backup</span>
       </el-space>
       <el-space style="cursor: pointer" @click="createNewFolder">
         <SvgIcon icon="packageExport"/>
-        <span>导出Apk</span>
+        <span>Export Apk</span>
       </el-space>
       <el-space style="cursor: pointer" @click="createNewFolder">
         <SvgIcon icon="packageInfo"/>
-        <span>详细信息</span>
+        <span>More Information</span>
       </el-space>
     </el-space>
     <div class="card mt-4">
@@ -51,7 +51,7 @@
                 <CircleCheckFilled/>
               </el-icon>
 
-              <span>名称</span>
+              <span>Name</span>
               <el-icon v-if="sortType === 'desc'" :size="18" style="cursor: pointer" @click="sortFileList('asc')">
                 <Bottom/>
               </el-icon>
@@ -61,12 +61,12 @@
             </el-space>
           </el-col>
           <el-col :span="14">
-            <span style="margin-right: 45px">来源</span>
-            <span>大小</span>
+            <span style="margin-right: 45px">Source</span>
+            <span>size</span>
             <div style="margin-left: 160px; margin-top: -24px" class="d-flex justify-content-between">
-              <span>安装时间</span>
-              <span>最后使用时间</span>
-              <span style="margin-right: 15px">操作</span>
+              <span>Installation time</span>
+              <span>Last used time</span>
+              <span style="margin-right: 15px">Operate</span>
             </div>
           </el-col>
         </el-row>
@@ -124,24 +124,24 @@
                     <template #default>
                       <el-space class="operationItemCss" @click="rightDownloadFile(appItem.name, appItem.numType)">
                         <SvgIcon style="margin-left: 9px" icon="DownloadIcon"/>
-                        <span class="mx-2">在设备上启动</span>
+                        <span class="mx-2">Launch on device</span>
                       </el-space>
                       <el-space class="operationItemCss" @click="renameFile(appItem.name)">
                         <SvgIcon style="margin-left: 9px" icon="RenameIcon"/>
-                        <span class="mx-2">卸载</span>
+                        <span class="mx-2">Uninstall</span>
                       </el-space>
                       <el-space class="operationItemCss" @click="deleteFileSingle(appItem.name, appItem.numType)">
                         <SvgIcon style="margin-left: 9px" icon="DeleteIcon"/>
-                        <span class="mx-2">备份</span>
+                        <span class="mx-2">Backup</span>
                       </el-space>
                       <el-space class="operationItemCss" @click="getFileDetail(appItem.name)">
                         <SvgIcon style="margin-left: 12px" icon="InfoIcon"
                                  :style="{ width:18 + 'px', height: 18 + 'px'}"/>
-                        <span style="margin-left: 9px">导出Apk</span>
+                        <span style="margin-left: 9px">Export Apk</span>
                       </el-space>
                       <el-space class="operationItemCss" @click="deleteFileSingle(appItem.name, appItem.numType)">
                         <SvgIcon style="margin-left: 9px" icon="DeleteIcon"/>
-                        <span class="mx-2">详细信息</span>
+                        <span class="mx-2">More Information</span>
                       </el-space>
                     </template>
                   </el-popover>
@@ -149,7 +149,7 @@
               </el-col>
             </el-row>
           </div>
-          <el-empty v-else description="暂无文件"/>
+          <el-empty v-else description="No files yet"/>
         </div>
       </el-scrollbar>
     </div>
@@ -177,7 +177,7 @@ const appList = ref([])
 const appInfoList = ref([])
 
 const handleSelectAll = () => {
-  console.log('全选')
+  console.log('Select All')
   if (selectStatus.value === 0) {
     appItemList.value.forEach((appItem) => {
       appItem.isSelect = true
@@ -192,21 +192,21 @@ const handleSelectAll = () => {
 const testReadAppInfo = async () => {
   let adb = await getAdbInstance();
   let isServiceRunning = false
-  console.log("检测服务是否开启")
+  console.log("Check whether the service is enabled")
   const process = await adb.subprocess.spawn("top -b -n 1 | grep app_process");
   await process.stdout.pipeThrough(new TextDecoderStream()).pipeTo(
       new WritableStream({
         write(chunk) {
           if (chunk.includes("com.lyx.myapplication.Main")) {
             isServiceRunning = true
-            console.log("服务已开启，无需额外启动")
+            console.log("The service is already started, no additional startup is required")
           }
         },
       }),
   );
   if (!isServiceRunning) {
-    console.log("服务未开启，尝试开启服务")
-    console.log("准备推送apkans.jar")
+    console.log("The service is not enabled. Try enabling the service.")
+    console.log("Prepare to push apkans.jar")
     await pushServerAndStartScrcpyClient(adb, '/apkans.jar', false)
     await adb.subprocess.spawn(
         "CLASSPATH=/data/local/tmp/apkans.jar nohup app_process / com.lyx.myapplication.Main > /dev/null 2>&1 &"
@@ -217,7 +217,7 @@ const testReadAppInfo = async () => {
         new WritableStream({
           write(chunk) {
             if (chunk.includes("com.lyx.myapplication.Main")) {
-              console.log("当前服务已开启")
+              console.log("The current service is enabled")
             }
           },
         }),
@@ -227,7 +227,7 @@ const testReadAppInfo = async () => {
 
 // 客户端开启socket连接
 const testSocket = async () => {
-  console.log("开启socket连接");
+  console.log("Open the socket connection");
   const maxRetries = 5; // 最大重试次数
   const retryInterval = 1000; // 重试间隔时间（毫秒）
 
@@ -236,7 +236,7 @@ const testSocket = async () => {
       let adb = await getAdbInstance();
       // 创建与 Android 设备端口的套接字连接
       socket = await adb.createSocket("tcp:4521");
-      console.log("socket连接成功");
+      console.log("Socket connection successful");
       const decoder = new TextDecoder("utf-8");
 
       let currentAppInfo = '';
@@ -264,12 +264,12 @@ const testSocket = async () => {
       );
       return; // 成功连接后退出循环
     } catch (error) {
-      console.error(`尝试 ${attempt} 次创建socket失败:`, error);
+      console.error(`try ${attempt} Failed to create socket:`, error);
       if (attempt < maxRetries) {
-        console.log(`将在 ${retryInterval / 1000} 秒后重试...`);
+        console.log(`Will be in ${retryInterval / 1000} Retry after seconds...`);
         await new Promise(resolve => setTimeout(resolve, retryInterval));
       } else {
-        console.error("达到最大重试次数，放弃连接");
+        console.error("The maximum number of retries has been reached, and the connection is abandoned");
         throw error; // 达到最大重试次数后抛出异常
       }
     }
@@ -302,11 +302,11 @@ const testAppInfoList = async () => {
         // 将item的内容合并到item2
         Object.assign(item2, item);
         if (item2.sourceDir.startsWith('/data/app/')) {
-          item2.appSource = '本地应用';
+          item2.appSource = 'Local apps';
         } else if (item.sourceDir.startsWith('/system')) {
-          item2.appSource = '系统应用';
+          item2.appSource = 'System Application';
         } else {
-          item2.appSource = '未知';
+          item2.appSource = 'unknown';
         }
       }
     })
@@ -318,10 +318,10 @@ const testAppInfoList = async () => {
 
 const sendPackage = async (path) => {
   writer = socket.writable.getWriter();
-  console.log("测试发送消息");
+  console.log("Test sending message");
   await writer.write(new TextEncoder().encode(path));
   await writer.write(new TextEncoder().encode("\r"));
-  console.log("数据发送成功");
+  console.log("Data sent successfully");
   writer.releaseLock();
 }
 const getCurrentAppItem = (name) => {
@@ -330,7 +330,7 @@ const getCurrentAppItem = (name) => {
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const initPmObj = async (isShowThirdParty = true) => {
-  console.log("初始化应用管理器");
+  console.log("Initialize the Application Manager");
   let adb = await getAdbInstance();
   const pm = new PackageManager(adb);
   const options = {
@@ -340,7 +340,7 @@ const initPmObj = async (isShowThirdParty = true) => {
     listThirdParty: isShowThirdParty
   };
   const packageList = pm.listPackages(options);
-  console.log("通过应用管理器获取简单列表")
+  console.log("Get a simple list via the App Manager")
   await testReadAppInfo()
 
   for await (const packages of packageList) {
@@ -359,12 +359,12 @@ const initPmObj = async (isShowThirdParty = true) => {
       isSelect: false
     });
   }
-  console.log("所有app的数量", appList.value.length);
+  console.log("The number of all apps", appList.value.length);
   await testSocket()
 };
 const getAppIcon = async () => {
   for (let i = 0; i < appList.value.length; i++) {
-    console.log("发送第", i, "条消息", appList.value[i].sourceDir);
+    console.log("Send", i, "Messages", appList.value[i].sourceDir);
     await sendPackage(appList.value[i].sourceDir);
     // 发送完一条消息后等待500毫秒再发送下一条
     await delay(100);

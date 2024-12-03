@@ -70,9 +70,9 @@ const {
 
 // 监听 width 和 height 的变化
 watch([windowWidth, windowHeight], ([newWidth, newHeight]) => {
-  console.log("监听到窗口变化了")
+  console.log("Monitor window changes")
   if (width.value !== 0 || height.value !== 0) {
-    console.log("渲染完成后才能触发")
+    console.log("Can only be triggered after rendering is complete")
     console.log("width or height changed", newWidth, newHeight)
     changeStyle()
   }
@@ -83,7 +83,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  console.log("销毁 scrcpy");
+  console.log("destroy scrcpy");
   destroyClient()
 });
 </script>

@@ -1,40 +1,35 @@
 <template>
-  <el-menu
-      :default-active="activeIndex"
-      mode="horizontal"
-      class="menuCss"
-      :ellipsis="false"
-      @select="handleSelect"
-      router
-  >
-    <SvgIcon icon="HomeIcon" style="margin-top: 15px" :style="{width:35 + 'px', height:35 + 'px'}"></SvgIcon>
+  <el-menu :default-active="activeIndex" mode="horizontal" class="menuCss" :ellipsis="false" @select="handleSelect"
+    router>
+    <SvgIcon icon="HomeIcon" style="margin-top: 15px" :style="{ width: 35 + 'px', height: 35 + 'px' }"></SvgIcon>
     <el-menu-item index="overview">
-      <span class="fw-bold fs-6">概览</span>
+      <span class="fw-bold fs-6">Overview</span>
     </el-menu-item>
     <el-menu-item index="fileManage">
-      <span class="fw-bold fs-6">文件管理器</span>
+      <span class="fw-bold fs-6">File Manager</span>
     </el-menu-item>
     <el-menu-item index="appManage">
-      <span class="fw-bold fs-6">应用管理器</span>
+      <span class="fw-bold fs-6">Application Manager</span>
     </el-menu-item>
     <el-menu-item index="logcat">
-      <span class="fw-bold fs-6">实时日志</span>
+      <span class="fw-bold fs-6">Real-time Logs</span>
     </el-menu-item>
     <el-menu-item index="terminal">
-      <span class="fw-bold fs-6">终端操作</span>
+      <span class="fw-bold fs-6">Terminal Operations</span>
     </el-menu-item>
     <el-menu-item index="screenControl">
-      <span class="fw-bold fs-6">屏幕操作</span>
+      <span class="fw-bold fs-6">Screen Operations</span>
     </el-menu-item>
-    <div class="flex-grow"/>
+
+    <div class="flex-grow" />
     <el-space class="mx-2" style="font-size: 14px;">
-      <TemperatureIcon style="margin-right: 10px" :temperature="temperature"/>
-      <BatteryIcon class="mx-2" :is-charge="isCharge" :quantity="battery"/>
+      <TemperatureIcon style="margin-right: 10px" :temperature="temperature" />
+      <BatteryIcon class="mx-2" :is-charge="isCharge" :quantity="battery" />
       <SvgIcon icon="wifiIcon" :color="'#409EFF'" style="margin-right: 10px;cursor: pointer"
-               :style="{ width:18 + 'px', height: 18 + 'px'}"/>
+        :style="{ width: 18 + 'px', height: 18 + 'px' }" />
       <span class="fw-bold" style="margin-top: -3px;font-size: 15px">{{ adbObject?.banner.model }}</span>
       <el-icon>
-        <Switch/>
+        <Switch />
       </el-icon>
     </el-space>
   </el-menu>
@@ -44,11 +39,11 @@ import useWindowResize from "@/utils/useWindowResize.js";
 import SvgIcon from "@/components/SvgIcon.vue";
 import BatteryIcon from "@/components/BatteryIcon.vue";
 import TemperatureIcon from "@/components/TemperatureIcon.vue";
-import {Switch} from "@element-plus/icons-vue";
-import {getAdbInstance, executeCommand} from "@/utils/adbManager.js";
+import { Switch } from "@element-plus/icons-vue";
+import { getAdbInstance, executeCommand } from "@/utils/adbManager.js";
 
 // const deviceStore = useDeviceStore();
-const {width, height} = useWindowResize();
+const { width, height } = useWindowResize();
 const activeIndex = ref('overview')
 let timerId = null;
 const temperature = ref(0);
@@ -114,7 +109,8 @@ onUnmounted(() => {
   flex-grow: 1;
 }
 
-.menuCss:deep(.el-menu-item:hover), .menuCss:deep(.el-menu-item.is-active) {
+.menuCss:deep(.el-menu-item:hover),
+.menuCss:deep(.el-menu-item.is-active) {
   background-color: #ffffff !important;
   color: var(--el-color-primary) !important;
 }

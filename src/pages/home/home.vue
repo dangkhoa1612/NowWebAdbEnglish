@@ -1,15 +1,15 @@
 <template>
   <div v-if="connectStatus === 'disconnected'">
     <div class="d-flex justify-content-center homeTitle">
-      <h1>设备配对</h1>
+      <h1>Device pairing</h1>
     </div>
     <div class="d-flex justify-content-center my-4">
-      <h4>选择并验证设备</h4>
+      <h4>Select and verify the device</h4>
     </div>
   </div>
   <div v-else>
     <div class="d-flex justify-content-center homeTitle">
-      <h2 class="mb-5">正在连接
+      <h2 class="mb-5">Connecting
         <span class="fw-bold" style="font-size: 25px;color: #409EFF">{{ devicesName }}</span>
       </h2>
     </div>
@@ -33,23 +33,23 @@
       </div>
       <div v-if="connectStatus === 'disconnected'">
         <div class="d-flex justify-content-center">
-          <span>使用USB线连接设备</span>
+          <span>Connect the device using a USB cable</span>
         </div>
         <div class="d-flex justify-content-center my-2">
-          <span>然后在弹出窗口中连接</span>
+          <span>Then connect in the pop-up window</span>
         </div>
         <div class="d-flex justify-content-center my-4">
-          <el-button type="primary" @click="connectDevice">连接设备</el-button>
+          <el-button type="primary" @click="connectDevice">Connecting devices</el-button>
         </div>
       </div>
       <div v-else-if="connectStatus === 'connectConfirming'">
         <div class="d-flex justify-content-center my-4">
-          <span class="fw-bold">请在弹窗中选择需要连接的设备</span>
+          <span class="fw-bold">Please select the device you want to connect to in the pop-up window</span>
         </div>
       </div>
       <div v-else>
         <div class="d-flex justify-content-center my-4">
-          <span class="fw-bold">请在设备上确认连接</span>
+          <span class="fw-bold">Please confirm the connection on the device</span>
         </div>
       </div>
     </el-card>
@@ -101,8 +101,8 @@ const connectDevice = async () => {
     } catch (e) {
       console.log(e)
       ElNotification.error({
-        title: '连接失败',
-        message: '连接失败，当前设备已被其他应用程序占用！请关闭其他程序再尝试连接',
+        title: 'Connection failed',
+        message: 'Connection failed, the current device is occupied by other applications! Please close other programs and try to connect again',
         type: 'error',
         duration: 3000
       })
@@ -110,8 +110,8 @@ const connectDevice = async () => {
     }
   } else {
     ElNotification.error({
-      title: '连接失败',
-      message: '连接失败，请检查设备是否已连接',
+      title: 'Connection failed',
+      message: 'Connection failed, please check if the device is connected',
       type: 'error',
       duration: 3000
     })

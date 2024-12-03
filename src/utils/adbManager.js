@@ -33,7 +33,7 @@ export async function executeCommand(command) {
         await process.kill();
         return chunks.join('');
     } catch (error) {
-        console.error('执行命令出错:', error);
+        console.error('Error executing command:', error);
         return '';
     }
 }

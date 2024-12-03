@@ -1,8 +1,8 @@
 <template>
   <el-row :gutter="20">
     <el-col :span="8">
-      <el-image style="border-radius: 12px;" :style="{ height: height-100 + 'px' }" fit="contain" :src="deviceNowImg"
-                hide-on-click-modal/>
+      <el-image style="border-radius: 12px;" :style="{ height: height - 100 + 'px' }" fit="contain" :src="deviceNowImg"
+        hide-on-click-modal />
     </el-col>
     <el-col :span="16">
       <!--      <el-card style="border-radius: 12px">-->
@@ -11,42 +11,42 @@
       <el-row :gutter="20">
         <el-col :span="12" class="mb-4">
           <el-space>
-            <SvgIcon icon="wifiIcon" :color="'#66b1ff'" :style="{ width:18 + 'px', height: 18 + 'px'}"/>
+            <SvgIcon icon="wifiIcon" :color="'#66b1ff'" :style="{ width: 18 + 'px', height: 18 + 'px' }" />
             <span style="font-size: 16px"> Wi-Fi</span>
           </el-space>
           <div class="mt-3">{{ deviceWifi }}</div>
         </el-col>
         <el-col :span="12" class="mb-4">
           <el-space>
-            <SvgIcon icon="EarthIcon" :color="'#66b1ff'" :style="{ width:18 + 'px', height: 18 + 'px'}"/>
-            <span style="font-size: 16px"> IP地址</span>
+            <SvgIcon icon="EarthIcon" :color="'#66b1ff'" :style="{ width: 18 + 'px', height: 18 + 'px' }" />
+            <span style="font-size: 16px"> IP address</span>
           </el-space>
           <div v-if="deviceIp" class="mt-3">{{ deviceIp }}</div>
-          <div v-else class="mt-3">获取中···</div>
+          <div v-else class="mt-3">Getting...</div>
         </el-col>
         <el-col :span="12" class="mb-4">
           <el-space>
-            <SvgIcon icon="AndroidIcon" :color="'#66b1ff'" :style="{ width:18 + 'px', height: 18 + 'px'}"/>
-            <span style="font-size: 16px"> 系统版本</span>
+            <SvgIcon icon="AndroidIcon" :color="'#66b1ff'" :style="{ width: 18 + 'px', height: 18 + 'px' }" />
+            <span style="font-size: 16px"> System version</span>
           </el-space>
           <div class="mt-3">{{ deviceVersion }}</div>
         </el-col>
         <el-col :span="12" class="mb-4">
           <el-space>
-            <SvgIcon icon="BatteryIcon" :color="'#66b1ff'" :style="{ width:18 + 'px', height: 18 + 'px'}"/>
-            <span style="font-size: 16px"> 电池电压</span>
+            <SvgIcon icon="BatteryIcon" :color="'#66b1ff'" :style="{ width: 18 + 'px', height: 18 + 'px' }" />
+            <span style="font-size: 16px"> Battery voltage</span>
           </el-space>
           <div class="mt-3">{{ deviceBatteryVoltage }}</div>
         </el-col>
         <el-col :span="12" class="mb-4">
           <el-space>
-            <SvgIcon icon="StorageIcon" :color="'#66b1ff'" :style="{ width:18 + 'px', height: 18 + 'px'}"/>
-            <span style="font-size: 16px"> 存储使用</span>
+            <SvgIcon icon="StorageIcon" :color="'#66b1ff'" :style="{ width: 18 + 'px', height: 18 + 'px' }" />
+            <span style="font-size: 16px"> Storage Usage</span>
           </el-space>
           <div class="mt-3">
-            <span>总容量</span>
+            <span>Total Capacity</span>
             <span class="fw-bold mx-2" style="font-size: 13px">{{ deviceStorageTotal }} </span>
-            <span>已使用</span>
+            <span>Used</span>
             <span class="fw-bold mx-2" style="font-size: 13px">{{ deviceStorageUsed }}</span>
             <span class="fw-bold mx-2" style="font-size: 13px">{{ deviceStorageUsedRate }}</span>
           </div>
@@ -56,13 +56,13 @@
         </el-col>
         <el-col :span="12" class="mb-4">
           <el-space>
-            <SvgIcon icon="MemoryIcon" :color="'#66b1ff'" :style="{ width:18 + 'px', height: 18 + 'px'}"/>
-            <span style="font-size: 16px"> 内存使用</span>
+            <SvgIcon icon="MemoryIcon" :color="'#66b1ff'" :style="{ width: 18 + 'px', height: 18 + 'px' }" />
+            <span style="font-size: 16px"> Memory usage</span>
           </el-space>
           <div class="mt-3">
-            <span>总内存</span>
+            <span>Total Memory</span>
             <span class="fw-bold mx-2" style="font-size: 13px">{{ deviceMemoryTotal }}G </span>
-            <span>已使用</span>
+            <span>Used</span>
             <span class="fw-bold mx-2" style="font-size: 13px">{{ deviceMemoryUsed }}G</span>
             <span class="fw-bold mx-2" style="font-size: 13px">{{ deviceMemoryUsedRate }}%</span>
           </div>
@@ -72,45 +72,47 @@
         </el-col>
         <el-col :span="12" class="mb-4">
           <el-space>
-            <SvgIcon icon="ScreenIcon" :color="'#66b1ff'" :style="{ width:16 + 'px', height: 16 + 'px'}"/>
-            <span class="mx-1" style="font-size: 16px">屏幕尺寸</span>
+            <SvgIcon icon="ScreenIcon" :color="'#66b1ff'" :style="{ width: 16 + 'px', height: 16 + 'px' }" />
+            <span class="mx-1" style="font-size: 16px">Screen size</span>
           </el-space>
           <div class="mt-3">{{ deviceScreenSize }}</div>
         </el-col>
         <el-col :span="12" class="mb-4">
           <el-space>
-            <el-icon :size="18" color="#66b1ff"><Iphone /></el-icon>
-            <span style="font-size: 16px"> 序列号</span>
+            <el-icon :size="18" color="#66b1ff">
+              <Iphone />
+            </el-icon>
+            <span style="font-size: 16px"> Serial Number</span>
           </el-space>
           <div class="mt-3">{{ deviceSerialno }}</div>
         </el-col>
         <el-col :span="12" class="mb-4">
           <el-space>
-            <SvgIcon icon="FrameworkIcon" :color="'#66b1ff'" :style="{ width:18 + 'px', height: 18 + 'px'}"/>
-            <span style="font-size: 16px"> 设备Abi</span>
+            <SvgIcon icon="FrameworkIcon" :color="'#66b1ff'" :style="{ width: 18 + 'px', height: 18 + 'px' }" />
+            <span style="font-size: 16px"> Device Abi</span>
           </el-space>
           <div class="mt-3">{{ deviceAbi }}</div>
         </el-col>
         <el-col :span="12" class="mb-4">
           <el-space>
-            <SvgIcon icon="CpuIcon" :color="'#66b1ff'" :style="{ width:18 + 'px', height: 18 + 'px'}"/>
-            <span style="font-size: 16px"> CPU信息</span>
+            <SvgIcon icon="CpuIcon" :color="'#66b1ff'" :style="{ width: 18 + 'px', height: 18 + 'px' }" />
+            <span style="font-size: 16px"> CPU Information</span>
           </el-space>
-          <div class="mt-3">{{ deviceCpuBrand }}<code>{{ deviceCpuCore }}</code> 核</div>
+          <div class="mt-3">{{ deviceCpuBrand }}<code>{{ deviceCpuCore }}</code> core</div>
         </el-col>
-        
+
       </el-row>
     </el-col>
   </el-row>
 </template>
 <script setup>
-import {executeCommand, getAdbInstance} from "@/utils/adbManager.js";
+import { executeCommand, getAdbInstance } from "@/utils/adbManager.js";
 import useWindowResize from "@/utils/useWindowResize.js";
 import SvgIcon from "@/components/SvgIcon.vue";
-import {Iphone} from "@element-plus/icons-vue";
+import { Iphone } from "@element-plus/icons-vue";
 
 const router = useRouter();
-const {width, height} = useWindowResize();
+const { width, height } = useWindowResize();
 const adbObject = computed(() => {
   return getAdbInstance()
 });
@@ -145,9 +147,9 @@ const getDevice = async () => {
 
     const context = canvas.getContext("2d");
     const imageData = new ImageData(
-        new Uint8ClampedArray(screenshot.data),
-        screenshot.width,
-        screenshot.height,
+      new Uint8ClampedArray(screenshot.data),
+      screenshot.width,
+      screenshot.height,
     );
     context.putImageData(imageData, 0, 0);
     deviceNowImg.value = canvas.toDataURL()
@@ -171,11 +173,12 @@ const getDevice = async () => {
   } catch (e) {
     console.log(e)
     ElNotification.error({
-      title: '连接断开',
-      message: '连接已断开，请重新连接',
+      title: 'Connection Lost',
+      message: 'The connection has been lost. Please reconnect.',
       type: 'error',
       duration: 3000
-    })
+    });
+
     // 路由跳转
     await router.push({
       name: "Home",
@@ -224,8 +227,8 @@ const deviceMemory = async () => {
         usedRate: memUsedRate,
       };
     } else {
-     return '';
-   }
+      return '';
+    }
   } else {
     return '';
   }
@@ -304,6 +307,4 @@ onUnmounted(() => {
   clearInterval(intervalId.value);
 })
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>

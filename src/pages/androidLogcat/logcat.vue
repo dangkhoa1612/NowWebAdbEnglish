@@ -4,12 +4,12 @@
       <div class="d-flex justify-content-between">
         <el-space size="large">
           <el-button v-if="!startLogcatFlag" type="primary" plain round :icon="VideoPlay" @click="startLogcat">
-            开始日志
+            Start Log
           </el-button>
-          <el-button v-else type="danger" plain round :icon="SwitchButton" @click="stopLogcat">停止日志</el-button>
-          <el-button type="warning" plain round :icon="Delete" @click="clearLogcat">清空日志</el-button>
-          <el-button type="info" plain round :icon="FolderAdd" @click="saveLogcat">保存日志</el-button>
-          <el-button type="info" plain round @click="testGetColumns">查看行</el-button>
+          <el-button v-else type="danger" plain round :icon="SwitchButton" @click="stopLogcat">Stop Logging</el-button>
+          <el-button type="warning" plain round :icon="Delete" @click="clearLogcat">Clear the log</el-button>
+          <el-button type="info" plain round :icon="FolderAdd" @click="saveLogcat">Save log</el-button>
+          <el-button type="info" plain round @click="testGetColumns">View Rows</el-button>
         </el-space>
         <div>
           <el-input v-model="searchText" placeholder="搜索日志" clearable style="width: 200px"></el-input>
@@ -18,22 +18,22 @@
     </template>
     <el-row :gutter="10" style="width: 99%">
       <el-col :span="4">
-        <span>时间</span>
+        <span>Time</span>
       </el-col>
       <el-col :span="2">
-        <span>进程ID</span>
+        <span>Process ID</span>
       </el-col>
       <el-col :span="2">
-        <span>线程ID</span>
+        <span>Thread ID</span>
       </el-col>
       <el-col :span="2">
-        <span>日志等级</span>
+        <span>Log Level</span>
       </el-col>
       <el-col :span="4">
-        <span>标签</span>
+        <span>Label</span>
       </el-col>
       <el-col :span="10">
-        <span>日志内容</span>
+        <span>Log content</span>
       </el-col>
     </el-row>
     <ShowLog :source="logData" ref="logCatTableRef"/>

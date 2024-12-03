@@ -24,7 +24,7 @@ import { DEFAULT_SETTINGS } from '@/utils/scrcpySettings.js';
 import { WebCodecsVideoDecoder } from '@yume-chan/scrcpy-decoder-webcodecs';
 import { clamp } from "lodash";
 import useWindowResize from "@/utils/useWindowResize.js";
-import {pushServerAndStartScrcpyClient} from "@/utils/adbUtils.js";
+import { pushServerAndStartScrcpyClient } from "@/utils/adbUtils.js";
 
 const useScrcpy = () => {
     let options
@@ -36,7 +36,7 @@ const useScrcpy = () => {
     let decoder = null;
     const width = ref(0)
     const height = ref(0)
-    const {height: windowHeight, width: windowWidth} = useWindowResize();
+    const { height: windowHeight, width: windowWidth } = useWindowResize();
     const renderContainer = ref();
     const openInput = ref(false)
     const adbInstance = computed(() => getAdbInstance());
@@ -81,14 +81,14 @@ const useScrcpy = () => {
     };
 
     // 处理键盘事件
-    const handleKeyEvent = async (e, code=null) => {
-        if (code){
+    const handleKeyEvent = async (e, code = null) => {
+        if (code) {
             await handleKeyCode(e, code);
         } else {
             if (openInput.value) {
                 await handleKeyCode(e);
             } else {
-                console.log('移除键盘监听事件', e);
+                console.log('Remove keyboard listener events', e);
             }
         }
     };
@@ -98,18 +98,21 @@ const useScrcpy = () => {
      */
     const scrcpyStart = async (renderRef) => {
         try {
-            console.log('Scrcpy 版本:', VERSION);
-            console.log('renderRef', renderRef.renderContainer)
+            console.log('Scrcpy Version:', VERSION);
+            console.log('renderRef', renderRef.renderContainer);
             renderContainer.value = renderRef.renderContainer;
             const adb = await adbInstance.value;
-            await pushServerAndStartScrcpyClient(adb,'/server.bin')
-            console.log('服务端已推送');
+
+            // Push server binary and start Scrcpy client
+            await pushServerAndStartScrcpyClient(adb, '/server.bin');
+            console.log('Server binary pushed successfully');
 
             await startScrcpyClient(adb);
         } catch (error) {
-            console.error('初始化 scrcpy 时出错:', error);
+            console.error('Error initializing scrcpy:', error);
         }
     };
+
 
     /**
      * 启动 scrcpy 客户端并初始化视频流
@@ -138,16 +141,16 @@ const useScrcpy = () => {
                 write: (line) => {
                     console.log('stdout:', line);
                 },
-            })).then(r =>  console.log('pipeTo', r));
+            })).then(r => console.log('pipeTo', r));
 
             videoStream = await client.videoStream;
 
             if (videoStream) {
                 initializeVideoStream(videoStream);
-                console.log('视频流已启动');
+                console.log('Video streaming started');
             }
         } catch (error) {
-            console.error('启动 scrcpy 客户端时出错:', error);
+            console.error('Error starting scrcpy client:', error);
         }
     };
 
@@ -156,9 +159,9 @@ const useScrcpy = () => {
      * @param {Object} videoStream 视频流对象
      */
     const initializeVideoStream = (videoStream) => {
-        const {metadata, stream: videoPacketStream} = videoStream;
-        console.log('视频元数据:', metadata);
-        console.log('视频元数据的 codec:', metadata.codec);
+        const { metadata, stream: videoPacketStream } = videoStream;
+        console.log('Video metadata:', metadata);
+        console.log('Video metadata codec:', metadata.codec);
 
         // 设置宽高
         width.value = metadata.width;
@@ -181,11 +184,11 @@ const useScrcpy = () => {
 
             // 检查并附加渲染器
             if (!renderContainer.value) {
-                console.error('渲染容器未找到');
+                console.error('Rendering container not found');
                 return;
             }
             renderContainer.value.appendChild(decoder.renderer);
-            console.log('添加渲染器到容器:', decoder.renderer);
+            console.log('Adding a renderer to a container:', decoder.renderer);
 
             // 重置关键帧跟踪
             lastKeyframe.value = 0n;
@@ -198,13 +201,13 @@ const useScrcpy = () => {
 
             // 连接视频流
             if (videoPacketStream && typeof videoPacketStream.pipeTo === 'function') {
-                videoPacketStream.pipeThrough(handler).pipeTo(decoder.writable).then(r =>  console.log('pipeTo', r));
-                console.log('视频流已连接到解码器');
+                videoPacketStream.pipeThrough(handler).pipeTo(decoder.writable).then(r => console.log('pipeTo', r));
+                console.log('The video stream is connected to the decoder');
             } else {
-                console.error('videoPacketStream 无效或不可用');
+                console.error('videoPacketStream Invalid or unavailable');
             }
         } catch (error) {
-            console.error('初始化解码器时出错:', error);
+            console.error('Error initializing decoder:', error);
         }
     };
 
@@ -240,7 +243,7 @@ const useScrcpy = () => {
             default:
                 throw new Error("Unsupported codec");
         }
-        console.log(`[client] 视频尺寸变化: ${croppedWidth}x${croppedHeight}`);
+        console.log(`[client] Video size changes: ${croppedWidth}x${croppedHeight}`);
 
         // 更新宽高并调整样式
         width.value = croppedWidth;
@@ -255,7 +258,7 @@ const useScrcpy = () => {
     const handleKeyframe = (packet) => {
         if (lastKeyframe.value) {
             const interval = Math.floor(Number(packet.pts - lastKeyframe.value) / 1000);
-            console.log(`[client] 关键帧间隔: ${interval}ms`);
+            console.log(`[client] Keyframe Interval: ${interval}ms`);
         }
         lastKeyframe.value = packet.pts;
     };
@@ -265,7 +268,7 @@ const useScrcpy = () => {
      */
     const changeStyle = () => {
         const [calcWidth, calcHeight] = swapWidthHeight(width.value, height.value);
-        console.log('计算后的宽高:', calcWidth, calcHeight);
+        console.log('Calculated width and height:', calcWidth, calcHeight);
 
         // 更新渲染器样式
         setRendererStyle(decoder.renderer, calcWidth, calcHeight);
@@ -338,7 +341,7 @@ const useScrcpy = () => {
      */
     const clientPositionToDevicePosition = (clientX, clientY) => {
         if (!renderContainer.value) {
-            return {x: 0, y: 0}; // 如果渲染容器不存在，返回默认坐标
+            return { x: 0, y: 0 }; // 如果渲染容器不存在，返回默认坐标
         }
 
         const viewRect = renderContainer.value.getBoundingClientRect();
@@ -381,12 +384,12 @@ const useScrcpy = () => {
                 break;
         }
 
-        return {x: adjustedX, y: adjustedY};
+        return { x: adjustedX, y: adjustedY };
     };
 
-// 事件处理器注册
+    // 事件处理器注册
     const handleWheelTest = () => {
-        renderContainer.value.addEventListener("wheel", handleWheel, {passive: false});
+        renderContainer.value.addEventListener("wheel", handleWheel, { passive: false });
     };
 
     /**
@@ -405,7 +408,7 @@ const useScrcpy = () => {
     const handleWheel = async (event) => {
         preventEventDefaults(event); // 预防默认事件行为
 
-        const {x, y} = clientPositionToDevicePosition(event.clientX, event.clientY);
+        const { x, y } = clientPositionToDevicePosition(event.clientX, event.clientY);
         await client.controller.injectScroll({
             pointerX: x,
             pointerY: y,
@@ -427,7 +430,7 @@ const useScrcpy = () => {
             ? ScrcpyPointerId.Finger // Android 13 has bug with mouse injection
             : BigInt(event.pointerId);
 
-        const {x, y} = clientPositionToDevicePosition(event.clientX, event.clientY);
+        const { x, y } = clientPositionToDevicePosition(event.clientX, event.clientY);
 
         const messages = hoverHelper.process({
             action,
@@ -498,7 +501,7 @@ const useScrcpy = () => {
      * @param {KeyboardEvent} e 键盘事件
      * @param code 屏幕物理按键专用
      */
-    const handleKeyCode = async (e, code=null) => {
+    const handleKeyCode = async (e, code = null) => {
         if (code) {
             await client.controller.injectKeyCode({
                 action: e.type === 'mousedown' ? AndroidKeyEventAction.Down : AndroidKeyEventAction.Up,
